@@ -1,0 +1,285 @@
+from __future__ import print_function
+score=0
+global score
+# --------------- Helpers that build all of the responses ----------------------
+def build_speechlet_response(title, output, reprompt_text, should_end_session):
+    return {
+        'outputSpeech': {
+            'type': 'PlainText',
+            'text': output
+        },
+        'card': {
+            'type': 'Simple',
+            'title': "SessionSpeechlet - " + title,
+            'content': "SessionSpeechlet - " + output
+        },
+        'reprompt': {
+            'outputSpeech': {
+                'type': 'PlainText',
+                'text': reprompt_text
+            }
+        },
+        'shouldEndSession': should_end_session
+    }
+
+
+def build_response(session_attributes, speechlet_response):
+    return {
+        'version': '1.0',
+        'sessionAttributes': session_attributes,
+        'response': speechlet_response
+    }
+
+
+# --------------- Functions that control the skill's behavior ------------------
+
+def get_welcome_response():
+    session_attributes = {}
+    card_title = "Welcome"
+    speech_output = "Welcome to the Corona Skill Kit," \
+                    " How can i help you, you can ask me about these information," \
+                    " What are Precautions one should take,"\
+                    " What are the symptoms of virus,"\
+                    " About state or district information of virus affected or"\
+                    " Would you like to take online assessment test for virus check."
+    reprompt_text = "Please tell me by saying, " \
+                    "What are Precautions one should take,"\
+                    "What are the symptoms of virus,"\
+                    "About state or district information of virus affected or"\
+                    "Would you like to take online assessment test for virus check."
+    should_end_session = False
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+
+def handle_session_end_request():
+    card_title = "Session Ended"
+    speech_output = "Thank you for trying the Coivd 19 Skills," \
+                    "Have a nice day, Be Safe, Be Strong."
+    should_end_session = True
+    return build_response({}, build_speechlet_response(
+        card_title, speech_output, None, should_end_session))
+
+def set_precautions_in_session(intent, session):
+    card_title = intent['name']
+    session_attributes = {}
+    should_end_session = False
+    say = 'Wash your hands frequently,'
+    say+='Regularly and thoroughly clean your hands with an alcohol-based hand rub or wash them with soap and water,'
+    say+='Why?,'
+    say+='Washing your hands with soap and water or using alcohol-based hand rub kills viruses that may be on your hands,'
+    say+='Maintain social distancing,'
+    say+='Maintain at least 1 metre (3 feet) distance between yourself and anyone who is coughing or sneezing,'
+    say+='Why?,'
+    say+='When someone coughs or sneezes they spray small liquid droplets from their nose or mouth which may contain virus. If you are too close, you can breathe in the droplets, including the COVID-19 virus if the person coughing has the disease.'
+    speech_output=say
+    reprompt_text=""
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+def set_symptoms_in_session(intent, session):
+    card_title = intent['name']
+    session_attributes = {}
+    should_end_session = False
+    say = 'The most common symptoms of COVID 19 are fever, tiredness, and dry cough,'
+    say+='Some patients may have aches and pains, nasal congestion, runny nose, sore throat or diarrhea,'
+    say+='These symptoms are usually mild and begin gradually,'
+    say+='Some people become infected but do not develop any symptoms and do not feel unwell,'
+    say+=' Most people about 80 percent recover from the disease without needing special treatment,'
+    say+='Around 1 out of every 6 people who gets COVID 19 becomes seriously ill and develops difficulty breathing,'
+    say+='Older people, and those with underlying medical problems like high blood pressure, '
+    say+='heart problems or diabetes, are more likely to develop serious illness,'
+    say+='People with fever, cough and difficulty breathing should seek medical attention'
+    speech_output=say
+    reprompt_text=""
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+
+def set_state_in_session(intent, session):
+    card_title = intent['name']
+    session_attributes = {}
+    should_end_session = False
+    print(intent['slots'])
+    if 'India' == intent['slots']['districts']['value']:
+        slotStatus="India Covid 19 Tracker,"
+        slotStatus+="Confirmed Cases, 4822,"
+        slotStatus+="Active Cases, 4307,"
+        slotStatus+="Recovered Cases, 382,"
+        slotStatus+="Deceased Cases, 133."
+        speech_output = slotStatus
+        reprompt_text = ""
+    elif 'andhra pradesh' == intent['slots']['districts']['value']:
+        slotStatus="Andhra Pradesh Covid 19 Tracker,"
+        slotStatus+="Confirmed Cases, 303,"
+        slotStatus+="Active Cases, 295,"
+        slotStatus+="Recovered Cases, 5,"
+        slotStatus+="Deceased Cases, 3."
+        speech_output = slotStatus
+        reprompt_text = ""
+    elif 'telangana' == intent['slots']['districts']['value']:
+        slotStatus="Telangana Covid 19 Tracker,"
+        slotStatus+="Confirmed Cases, 364,"
+        slotStatus+="Active Cases, 320,"
+        slotStatus+="Recovered Cases, 33,"
+        slotStatus+="Deceased Cases, 11."
+        speech_output = slotStatus
+        reprompt_text = ""
+    else:
+        speech_output = "I'm not sure ." \
+                        "Please try again."
+        reprompt_text = "I'm not sure . "
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+def set_disease_in_session(intent, session):
+    card_title = intent['name']
+    session_attributes = {}
+    should_end_session = False
+    print(intent['slots'])
+    if 'fever' == intent['slots']['diseases']['value']:
+        slotStatus="Okay , Do you have Dry Cough,"
+        slotStatus+="Reply with i have dry cough or no"
+        speech_output = slotStatus
+        reprompt_text = ""
+        score+=10
+        global score
+    elif 'dry cough' == intent['slots']['diseases']['value']:
+        slotStatus="Okay, Do you feel triedness,"
+        slotStatus+="reply with i feel triedness or no"
+        speech_output = slotStatus
+        reprompt_text = ""
+        score+=10
+        global score
+    elif 'triedness' == intent['slots']['diseases']['value']:
+        slotStatus="Okay, Do you have body pains,"
+        slotStatus+="reply with i have body pains or no,"
+        speech_output = slotStatus
+        reprompt_text = ""
+        score+=10
+        global score
+    elif 'body pains' == intent['slots']['diseases']['value']:
+        slotStatus="Okay,"
+        slotStatus+="reply with yes to generate result or no to exit,"
+        speech_output = slotStatus
+        reprompt_text = ""
+        score+=10
+        global score
+    elif 'yes' == intent['slots']['diseases']['value']:
+        if(score>=30 and score<=40):
+            slotStatus="According to your symptoms you need to consult doctor for virus test"
+            speech_output=slotStatus
+            reprompt_text=""
+            score=0
+            global score
+        else:
+            slotStatus="You are not affected with virus, just stay at home, stay safe , stay strong"
+            speech_output = slotStatus
+            reprompt_text = ""
+            score=0
+            global score
+    elif 'no' == intent['slots']['diseases']['value']:
+        if(score>=30 and score<=40):
+            slotStatus="According to your symptoms you need to consult doctor for virus test"
+            speech_output=slotStatus
+            reprompt_text=""
+            score=0
+            global score
+        else:
+            slotStatus="You are not affected with virus, just stay at home, stay safe , stay strong"
+            speech_output = slotStatus
+            reprompt_text = ""
+            score=0
+            global score
+    else:
+        speech_output = "I'm not sure ." \
+                        "Please try again."
+        reprompt_text = "I'm not sure . "
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+
+def set_test_in_session(intent, session):
+    card_title = intent['name']
+    session_attributes = {}
+    should_end_session = False
+    say = 'Okay Im running self assessment test,'
+    say+='Do You have fever,'
+    say+="Reply with i have fever or no"
+    speech_output=say
+    reprompt_text=""
+    return build_response(session_attributes, build_speechlet_response(
+        card_title, speech_output, reprompt_text, should_end_session))
+# --------------- Events ------------------
+
+def on_session_started(session_started_request, session):
+    """ Called when the session starts """
+    print("on_session_started requestId=" + session_started_request['requestId']
+          + ", sessionId=" + session['sessionId'])
+def on_launch(launch_request, session):
+    """ Called when the user launches the skill without specifying what they
+    want
+    """
+    print("on_launch requestId=" + launch_request['requestId'] +
+          ", sessionId=" + session['sessionId'])
+    # Dispatch to your skill's launch
+    return get_welcome_response()
+
+def on_intent(intent_request, session):
+    """ Called when the user specifies an intent for this skill """
+    print("on_intent requestId=" + intent_request['requestId'] +
+          ", sessionId=" + session['sessionId'])
+    intent = intent_request['intent']
+    intent_name = intent_request['intent']['name']
+    # Dispatch to your skill's intent handlers
+    if intent_name == "state":
+        return set_state_in_session(intent, session)
+    elif intent_name == "precautions":
+        return set_precautions_in_session(intent, session)
+    elif intent_name == "symptoms":
+        return set_symptoms_in_session(intent, session)
+    elif intent_name == "test":
+        return set_test_in_session(intent, session)
+    elif intent_name == "disease":
+        return set_disease_in_session(intent, session)
+    elif intent_name == "AMAZON.HelpIntent":
+        return get_welcome_response()
+    elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
+        return handle_session_end_request()
+    else:
+        raise ValueError("Invalid intent")
+
+def on_session_ended(session_ended_request, session):
+    """ Called when the user ends the session.
+    Is not called when the skill returns should_end_session=true
+    """
+    print("on_session_ended requestId=" + session_ended_request['requestId'] +
+          ", sessionId=" + session['sessionId'])
+    # add cleanup logic here
+    
+# --------------- Main handler ------------------
+def lambda_handler(event, context):
+    """ Route the incoming request based on type (LaunchRequest, IntentRequest,
+    etc.) The JSON body of the request is provided in the event parameter.
+    """
+    print("event.session.application.applicationId=" +
+          event['session']['application']['applicationId'])
+
+    """
+    Uncomment this if statement and populate with your skill's application ID to
+    prevent someone else from configuring a skill that sends requests to this
+    function.
+    """
+    # if (event['session']['application']['applicationId'] !=
+    #         "amzn1.echo-sdk-ams.app.[unique-value-here]"):
+    #     raise ValueError("Invalid Application ID")
+
+    if event['session']['new']:
+        on_session_started({'requestId': event['request']['requestId']},
+                           event['session'])
+
+    if event['request']['type'] == "LaunchRequest":
+        return on_launch(event['request'], event['session'])
+    elif event['request']['type'] == "IntentRequest":
+        return on_intent(event['request'], event['session'])
+    elif event['request']['type'] == "SessionEndedRequest":
+        return on_session_ended(event['request'], event['session'])

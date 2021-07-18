@@ -1,0 +1,219 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "corona dashboard",
+            "modelConfiguration": {
+                "fallbackIntentSensitivity": {
+                    "level": "LOW"
+                }
+            },
+            "intents": [
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "precautions",
+                    "slots": [],
+                    "samples": [
+                        "precautions",
+                        "what care should i take to overcome virus",
+                        "what are the prementive should i take",
+                        "suggest me some precautions",
+                        "what are the precautions sould i take to over come virus"
+                    ]
+                },
+                {
+                    "name": "state",
+                    "slots": [
+                        {
+                            "name": "districts",
+                            "type": "districts"
+                        }
+                    ],
+                    "samples": [
+                        "info about {districts}",
+                        "tell me about {districts}",
+                        "{districts}"
+                    ]
+                },
+                {
+                    "name": "symptoms",
+                    "slots": [],
+                    "samples": [
+                        "symptoms",
+                        "what are the symptoms of corona",
+                        "symptoms of corona",
+                        "symptoms of covid "
+                    ]
+                },
+                {
+                    "name": "test",
+                    "slots": [],
+                    "samples": [
+                        "start slef assessment",
+                        "i am ready ",
+                        "start my test"
+                    ]
+                },
+                {
+                    "name": "disease",
+                    "slots": [
+                        {
+                            "name": "diseases",
+                            "type": "diseases"
+                        }
+                    ],
+                    "samples": [
+                        "i feel {diseases}",
+                        "i have {diseases}",
+                        "{diseases}"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "districts",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "japan"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "china"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "germany"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "italy"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "usa"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "india"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "himachal pradesh"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "chhattisgarh"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "rajasthan"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "madhya pradesh"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "odisha"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "kerala"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "maharashtra"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "tamil nadu"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "karnataka"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "telangana"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Andhra Pradesh"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "diseases",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "no"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "yes"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "body pains"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "triedness"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "dry cough"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "fever"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
